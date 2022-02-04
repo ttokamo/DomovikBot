@@ -19,7 +19,7 @@ import java.util.List;
 public class Bot extends TelegramLongPollingBot {
 
     private static final String botUserName = "Sevatest_bot";
-    private static final String token = "5222878356:AAHMu7k26HeDdSBO2c9BqVw3lh7EcPnm_J0";
+    private static final String token = "5222878356:AAH6WN4X1VlZQeyJZKd8q8QdEOJ0PgykEJ0";
 
 
     @Override
