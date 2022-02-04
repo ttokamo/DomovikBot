@@ -21,9 +21,7 @@ public class BotApplication {
 
 	@SneakyThrows
 	public static void main(String[] args) {
-		SpringApplication.run(BotApplication.class, args);
-		TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
-		telegramBotsApi.registerBot(new Bot());
+		SpringApplication.run(BotApplication.class);
 	}
 
 	@Bean
