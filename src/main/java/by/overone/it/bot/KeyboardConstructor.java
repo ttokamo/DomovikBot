@@ -8,8 +8,29 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Утилитный класс для создания кнопок, рядов и разметки.
+ * Пример создания клавиатуры с двумя рядами кнопок:
+ * --------------------------------------------------------------------------------------------------
+ * InlineKeyboardButton firstButton = KeyboardConstructor.createButton("some text", "some callback");
+ * InlineKeyboardButton secondButton = KeyboardConstructor.createButton("some text", "some callback");
+ * InlineKeyboardButton thirdButton = KeyboardConstructor.createButton("some text", "some callback");
+ *
+ * List<InlineKeyboardButton> firstRow = KeyboardConstructor.createRow(firstButton, secondButton);
+ * List<InlineKeyboardButton secondRow = KeyboardConstructor.createRow(thirdButton);
+ *
+ * InlineKeyboardMarkup markup = KeyboardConstructor.createMarkup(firstRow, secondRow);
+ * --------------------------------------------------------------------------------------------------
+*/
+
 public class KeyboardConstructor {
 
+    /**
+     * Статический метод создания одной кнопки.
+     * Принимает на вход параметры String buttonText, String callback.
+     * buttonText - текст, который будет отображаться на кнопке.
+     * callback - текст, который будет приходить в update после нажатия на кнопку.
+    */
     public static InlineKeyboardButton createButton(String buttonText, String callback) {
         InlineKeyboardButton button = new InlineKeyboardButton();
         button.setText(buttonText);
@@ -17,6 +38,10 @@ public class KeyboardConstructor {
         return button;
     }
 
+    /**
+     * Статический метод создания одного ряда кнопок.
+     * Принимает на вход неограниченное кол-во кнопок типа InlineKeyboardButton.
+    */
     @SneakyThrows
     public static List<InlineKeyboardButton> createRow(InlineKeyboardButton ... values) {
         if (values == null) {
@@ -30,6 +55,10 @@ public class KeyboardConstructor {
         }
     }
 
+    /**
+     * Статический метод создания клавиатурной разметки.
+     * Принимает на вход неограниченное кол-во рядов кнопок типа List<InlineKeyboardButton>.
+    */
     @SneakyThrows
     public static InlineKeyboardMarkup createMarkup(List<InlineKeyboardButton> ... values) {
         if (values == null) {
