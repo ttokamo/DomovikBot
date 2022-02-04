@@ -1,6 +1,7 @@
 package by.overone.it.bot;
 
 import lombok.SneakyThrows;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -14,10 +15,13 @@ import java.util.List;
 //    update.getCallbackQuerry - работа с кнопками
 
 
+@Component
 public class Bot extends TelegramLongPollingBot {
 
     private static final String botUserName = "Sevatest_bot";
-    private static final String token = "5222878356:AAHMu7k26HeDdSBO2c9BqVw3lh7EcPnm_J0";
+    private static final String token = "5222878356:AAH6WN4X1VlZQeyJZKd8q8QdEOJ0PgykEJ0";
+
+
 
 
     @Override
@@ -39,59 +43,37 @@ public class Bot extends TelegramLongPollingBot {
             String username = update.getMessage().getFrom().getFirstName();
             String start = update.getMessage().getText();
             if (start.startsWith("/start")) {
-                execute(sendMessage(update.getMessage().getChatId(), sendInlineKeyBoardMessageMainMenu(),
+                execute(sendMessageWithButtons(update.getMessage().getChatId(), sendInlineKeyBoardMessageMainMenu(),
                         "Привет в нашем телеграм-боте " + username));
             } else if (start.startsWith("/stop")) {
-                execute(sendMessage(update.getMessage().getChatId(), null, "До свидания"));
+                execute(sendMessageWithoutButtons(update.getMessage().getChatId(), "До свидания"));
             }
         } else if (update.hasCallbackQuery()) {
             String callback = update.getCallbackQuery().getData();
             Long chatId = update.getCallbackQuery().getMessage().getChatId();
 
             if (callback.startsWith("Menu")) {
-                execute(sendMessage(chatId, BotSecondMenu.sendSecondMenu(), "Вы нажали на меню"));
+                execute(sendMessageWithButtons(chatId, BotSecondMenu.sendSecondMenu(), "Вы нажали на меню"));
 
             } else if (callback.equals("Registration")) {
-                execute(sendMessage(chatId, sendInlineKeyBoardMessageMainMenu(), "Вы выбрали регистрацию"));
+                execute(sendMessageWithoutButtons(chatId, "Добро пожаловать в регистрацию." +
+                        " Введите ваше имя: "));
 
             } else if (callback.equals("Exit")) {
-                execute(sendMessage(chatId, sendInlineKeyBoardMessageMainMenu(),
+                execute(sendMessageWithButtons(chatId, sendInlineKeyBoardMessageMainMenu(),
                         "Если вы уверены что хотите выйти кликните сюда -> " + "/stop"));
 
             } else if (callback.equals("Baraholka")) {
-                execute(sendMessage(chatId, BotBaraholkaMenu.sendBaraholka(), "Вы нажали на барахолка"));
+                execute(sendMessageWithButtons(chatId, BotBaraholkaMenu.sendBaraholka(), "Вы нажали на барахолка"));
 
             } else if (callback.equals("JKH")) {
-                execute(sendMessage(chatId, BotJKHMenu.sendJKHMenu(), "Вы нажали на ЖКХ"));
+                execute(sendMessageWithButtons(chatId, BotJKHMenu.sendJKHMenu(), "Вы нажали на ЖКХ"));
 
             } else if (callback.equals("add advert")) {
-                execute(sendMessage(chatId, null, "Введите ваше имя для, чтобы зарегистрировать Вас"));
+                execute(sendMessageWithoutButtons(chatId, "Введите ваше имя для, чтобы зарегистрировать Вас"));
             }
         }
     }
-
-
-//        } else if (update.getCallbackQuery().getData().equals("Menu")) {
-//            execute(sendMessage(update.getCallbackQuery().getMessage().getChatId(), BotSecondMenu.sendSecondMenu(),
-//                    "Вы нажали на меню"));
-
-//        } else if (update.getCallbackQuery().getData().equals("Button registration")) {
-//            execute(sendMessage(update.getCallbackQuery().getMessage().getChatId(), sendInlineKeyBoardMessageMainMenu(),
-//                    "Вы выбрали регистрацию"));
-//
-//        } else if (update.getCallbackQuery().getData().equals("Button back")) {
-//            execute(sendMessage(update.getCallbackQuery().getMessage().getChatId(), sendInlineKeyBoardMessageMainMenu(),
-//                    "Если вы уверены что хотите выйти кликните сюда -> " + "/stop"));
-//
-//        } else if (update.getCallbackQuery().getData().equals("Button baraholka")) {
-//            execute(sendMessage(update.getCallbackQuery().getMessage().getChatId(), BotBaraholkaMenu.sendBaraholka(), "Вы нажали на барахолка"));
-//
-//        } else if (update.getCallbackQuery().getData().equals("Button JKH")) {
-//            execute(sendMessage(update.getCallbackQuery().getMessage().getChatId(), BotJKHMenu.sendJKHMenu(), "Вы нажали на ЖКХ"));
-//        } else if (update.getCallbackQuery().getData().equals("add advert")) {
-//            execute(sendMessage(update.getCallbackQuery().getMessage().getChatId(), null, "Введите ваше имя для, чтобы зарегистрировать Вас"));
-//        }
-
 
     //    Главное меню
     public static InlineKeyboardMarkup sendInlineKeyBoardMessageMainMenu() {
@@ -125,12 +107,20 @@ public class Bot extends TelegramLongPollingBot {
     }
 
 
-    //    Отдельный метод сендмесседж
-    public SendMessage sendMessage(long chatId, InlineKeyboardMarkup inlineKeyboardMarkup, String text) {
+    //    Отдельный метод сендмесседж с кнопками
+    public SendMessage sendMessageWithButtons(long chatId, InlineKeyboardMarkup inlineKeyboardMarkup, String text) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setText(text);
         sendMessage.setChatId(String.valueOf(chatId));
         sendMessage.setReplyMarkup(inlineKeyboardMarkup);
+        return sendMessage;
+    }
+
+//    Отдельный метод сендмесседж без кнопок
+    public SendMessage sendMessageWithoutButtons(long chatId, String text){
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setText(text);
+        sendMessage.setChatId(String.valueOf(chatId));
         return sendMessage;
     }
 
