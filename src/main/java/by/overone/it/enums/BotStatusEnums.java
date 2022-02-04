@@ -10,5 +10,6 @@ public enum BotStatusEnums {
     ASK_ABOUT_TELEPHONE_NUMBER,
     ASK_ABOUT_CAR, // Спросить о наличии машины
     ASK_ABOUT_CAR_NUMBER, // Если машина есть, то задается вопрос о номере машины
+    ASK_ABOUT_MARKET_DESCRIPTION,
     FINISH
 }
