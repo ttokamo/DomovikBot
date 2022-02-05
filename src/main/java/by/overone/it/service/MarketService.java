@@ -13,15 +13,8 @@ public class MarketService {
     @Autowired
     private MarketRepository marketRepository;
 
-    private void saveAd(Market market) {
+    public void saveAd(Market market) {
         marketRepository.save(market);
-    }
-
-    public void saveAd(String username, String description) {
-        Market market = new Market();
-        market.setUsername(username);
-        market.setDescription(description);
-        saveAd(market);
     }
 
     public List<Market> getAllAd() {
