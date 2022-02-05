@@ -11,7 +11,7 @@ public class BotStatusService {
     @Autowired
     private BotStatusRepository repository;
 
-    public BotStatus getBotStatusByUsername(String username) {
+    public String getBotStatusByUsername(String username) {
         return repository.getBotStatusByUsername(username);
     }
 

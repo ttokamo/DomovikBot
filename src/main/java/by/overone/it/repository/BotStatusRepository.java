@@ -14,7 +14,7 @@ import javax.transaction.Transactional;
 public interface BotStatusRepository extends JpaRepository<BotStatus, String> {
 
     @Query("from BotStatus where username =:username")
-    BotStatus getBotStatusByUsername(@Param("username") String username);
+    String getBotStatusByUsername(@Param("username") String username);
 
     @Modifying
     @Query("delete from BotStatus where username =:username")

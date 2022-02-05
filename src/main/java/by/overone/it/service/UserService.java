@@ -11,34 +11,8 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    private void saveUser(User user) {
+    public void saveUser(User user) {
         userRepository.save(user);
-    }
-
-    public void saveUser(
-            String username,
-            String name,
-            String secondName,
-            String street,
-            String house,
-            String porchNumber,
-            String floor,
-            String flat,
-            String telephoneNumber,
-            String carNumber)
-    {
-        User user = new User();
-        user.setUsername(username);
-        user.setName(name);
-        user.setSecondName(secondName);
-        user.setStreet(street);
-        user.setHouse(house);
-        user.setPorchNumber(porchNumber);
-        user.setFloor(floor);
-        user.setFlat(flat);
-        user.setTelephoneNumber(telephoneNumber);
-        user.setCarNumber(carNumber);
-        saveUser(user);
     }
 
     public User getUserByUsername(String username) {
