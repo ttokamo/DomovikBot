@@ -6,22 +6,15 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-
-import java.util.ArrayList;
-import java.util.List;
 
 // update.getMessage() - работа сообщениями
-//    update.getCallbackQuerry - работа с кнопками
-
+// update.getCallbackQuerry - работа с кнопками
 
 @Component
 public class Bot extends TelegramLongPollingBot {
 
     private static final String botUserName = "Sevatest_bot";
     private static final String token = "5222878356:AAH6WN4X1VlZQeyJZKd8q8QdEOJ0PgykEJ0";
-
-
 
 
     @Override
@@ -43,85 +36,46 @@ public class Bot extends TelegramLongPollingBot {
             String username = update.getMessage().getFrom().getFirstName();
             String start = update.getMessage().getText();
             if (start.startsWith("/start")) {
-                execute(sendMessageWithButtons(update.getMessage().getChatId(), sendInlineKeyBoardMessageMainMenu(),
-                        "Привет в нашем телеграм-боте " + username));
+                execute(SendMessageConstructor.sendMessage("Привет в нашем телеграм-боте, " + username,
+                        update.getMessage().getChatId().toString(), true,
+                        BotMainMenu.sendMainMenu()));
             } else if (start.startsWith("/stop")) {
-                execute(sendMessageWithoutButtons(update.getMessage().getChatId(), "До свидания"));
+                execute(SendMessageConstructor.sendMessage("До свидания",
+                        update.getMessage().getChatId().toString(), false, null));
             }
+
         } else if (update.hasCallbackQuery()) {
             String callback = update.getCallbackQuery().getData();
-            Long chatId = update.getCallbackQuery().getMessage().getChatId();
-
             if (callback.startsWith("Menu")) {
-                execute(sendMessageWithButtons(chatId, BotSecondMenu.sendSecondMenu(), "Вы нажали на меню"));
+                execute(SendMessageConstructor.sendMessage("Вы нажали на меню",
+                        update.getCallbackQuery().getMessage().getChatId().toString(), true,
+                        BotSecondMenu.sendSecondMenu()));
 
             } else if (callback.equals("Registration")) {
-                execute(sendMessageWithoutButtons(chatId, "Добро пожаловать в регистрацию." +
-                        " Введите ваше имя: "));
+                execute(SendMessageConstructor.sendMessage("Добро пожаловать в регистрацию.Введите ваше имя: ",
+                        update.getCallbackQuery().getMessage().getChatId().toString(), false, null));
 
             } else if (callback.equals("Exit")) {
-                execute(sendMessageWithButtons(chatId, sendInlineKeyBoardMessageMainMenu(),
-                        "Если вы уверены что хотите выйти кликните сюда -> " + "/stop"));
+                execute(SendMessageConstructor.sendMessage("Если вы уверены что хотите выйти кликните сюда -> /stop",
+                        update.getCallbackQuery().getMessage().getChatId().toString(), false, null));
 
             } else if (callback.equals("Baraholka")) {
-                execute(sendMessageWithButtons(chatId, BotBaraholkaMenu.sendBaraholka(), "Вы нажали на барахолка"));
+                execute(SendMessageConstructor.sendMessage("Вы нажали на барахолка",
+                        update.getCallbackQuery().getMessage().getChatId().toString(), true,
+                        BotBaraholkaMenu.sendBaraholka()));
 
             } else if (callback.equals("JKH")) {
-                execute(sendMessageWithButtons(chatId, BotJKHMenu.sendJKHMenu(), "Вы нажали на ЖКХ"));
+                execute(SendMessageConstructor.sendMessage("Вы нажали на ЖКХ",
+                        update.getCallbackQuery().getMessage().getChatId().toString(), true,
+                        BotJKHMenu.sendJKHMenu()));
 
             } else if (callback.equals("add advert")) {
-                execute(sendMessageWithoutButtons(chatId, "Введите ваше имя для, чтобы зарегистрировать Вас"));
+                execute(SendMessageConstructor.sendMessage("Введите описание вашего объявления: ",
+                        update.getCallbackQuery().getMessage().getChatId().toString(), false, null));
             }
+
         }
-    }
 
-    //    Главное меню
-    public static InlineKeyboardMarkup sendInlineKeyBoardMessageMainMenu() {
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-        InlineKeyboardButton inlineKeyboardButton1 = new InlineKeyboardButton();
-
-        inlineKeyboardButton1.setText("Меню");
-        inlineKeyboardButton1.setCallbackData("Menu");
-
-        InlineKeyboardButton inlineKeyboardButton2 = new InlineKeyboardButton();
-        inlineKeyboardButton2.setText("Регистрация");
-        inlineKeyboardButton2.setCallbackData("Registration");
-
-        List<InlineKeyboardButton> keyboardButtonsRaw1 = new ArrayList<>();
-        keyboardButtonsRaw1.add(inlineKeyboardButton1);
-        keyboardButtonsRaw1.add(inlineKeyboardButton2);
-
-        InlineKeyboardButton inlineKeyboardButton3 = new InlineKeyboardButton();
-        inlineKeyboardButton3.setText("Выход");
-        inlineKeyboardButton3.setCallbackData("Exit");
-
-        List<InlineKeyboardButton> keyboardButtonsRaw2 = new ArrayList<>();
-        keyboardButtonsRaw2.add(inlineKeyboardButton3);
-
-        List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
-        rowList.add(keyboardButtonsRaw1);
-        rowList.add(keyboardButtonsRaw2);
-        inlineKeyboardMarkup.setKeyboard(rowList);
-
-        return inlineKeyboardMarkup;
-    }
-
-
-    //    Отдельный метод сендмесседж с кнопками
-    public SendMessage sendMessageWithButtons(long chatId, InlineKeyboardMarkup inlineKeyboardMarkup, String text) {
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.setText(text);
-        sendMessage.setChatId(String.valueOf(chatId));
-        sendMessage.setReplyMarkup(inlineKeyboardMarkup);
-        return sendMessage;
-    }
-
-//    Отдельный метод сендмесседж без кнопок
-    public SendMessage sendMessageWithoutButtons(long chatId, String text){
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.setText(text);
-        sendMessage.setChatId(String.valueOf(chatId));
-        return sendMessage;
     }
 
 }
