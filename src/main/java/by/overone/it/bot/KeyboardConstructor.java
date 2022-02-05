@@ -40,7 +40,7 @@ public class KeyboardConstructor {
 
     /**
      * Статический метод создания одного ряда кнопок.
-     * Принимает на вход неограниченное кол-во кнопок типа InlineKeyboardButton.
+     * Принимает на вход максимум две кнопки типа InlineKeyboardButton.
     */
     @SneakyThrows
     public static List<InlineKeyboardButton> createRow(InlineKeyboardButton ... values) {
