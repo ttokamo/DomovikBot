@@ -1,6 +1,7 @@
 package by.overone.it.enums;
 
 public enum BotStatusEnums {
+    ASK_ABOUT_NAME,
     ASK_ABOUT_SECOND_NAME,
     ASK_ABOUT_STREET,
     ASK_ABOUT_HOUSE,
