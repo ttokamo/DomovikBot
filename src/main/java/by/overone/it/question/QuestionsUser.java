@@ -1,5 +1,6 @@
 package by.overone.it.question;
 
+import by.overone.it.bot.KeyboardConstructor;
 import by.overone.it.bot.SendMessageConstructor;
 import by.overone.it.entity.Market;
 import by.overone.it.entity.User;
@@ -11,6 +12,7 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 
 @Component
 public class QuestionsUser {
@@ -87,5 +89,11 @@ public class QuestionsUser {
             userService.saveUser(user);
         }
         return sendMessage;
+
+    }
+    private static InlineKeyboardMarkup sendCar() {
+        return KeyboardConstructor.createMarkup(
+                KeyboardConstructor.createRow(KeyboardConstructor.createButton("Да", "Yes"),
+                                              KeyboardConstructor.createButton("Нет", "No")));
     }
 }
