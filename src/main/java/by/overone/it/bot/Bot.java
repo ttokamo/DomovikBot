@@ -18,8 +18,8 @@ import java.util.List;
 @Component
 public class Bot extends TelegramLongPollingBot {
 
-    private static final String botUserName = "Sevatest_bot";
-    private static final String token = "5222878356:AAH6WN4X1VlZQeyJZKd8q8QdEOJ0PgykEJ0";
+    private static final String botUserName = "VENtestVENbot";
+    private static final String token = "5191128428:AAHhb-lw2mDnOiBaCdbA3w5jfLdzpBxkK1w";
 
 
 

@@ -7,6 +7,7 @@ import by.overone.it.service.UserService;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 @Component
 public class QuestionsUser {
@@ -15,12 +16,12 @@ public class QuestionsUser {
     private BotStatusService botStatusService;
     @Autowired
     private UserService userService;
-    @Autowired
-    private  Bot bot;
+
+    private SendMessage sendMessage;
     private User user;
 
     @SneakyThrows
-    public void questions(String username, String chatId, String message) {
+    public SendMessage questions(String username, String chatId, String message) {
         final String secondName = "Введите фамилию:";
         final String street = "Ведите улицу:";
         final String house = "Ведите номер дома:";
@@ -29,45 +30,58 @@ public class QuestionsUser {
         final String flat = "Ведите номер квартиры:";
         final String telephoneNumber = "Ведите номер телефона:";
         final String carNumber = "Ведите регистрационный номер машины:";
+        final String end = "Анкета заполнена";
 
         String status = botStatusService.getBotStatusByUsername(username);
         if (status.equals(BotStatusEnums.ASK_ABOUT_SECOND_NAME.toString())) {
             user = new User();
+            sendMessage = new SendMessage();
             botStatusService.updateBotStatus(chatId, BotStatusEnums.ASK_ABOUT_STREET.toString());
-            bot.execute(SendMessageConstructor.sendMessage(secondName, chatId, false, null));
+            sendMessage.setText(secondName);
+//            bot.execute(SendMessageConstructor.sendMessage(secondName, chatId, false, null));
             user.setUsername(username);
             user.setName(message);
+            return sendMessage;
         } else if (status.equals(BotStatusEnums.ASK_ABOUT_STREET.toString())) {
             botStatusService.updateBotStatus(chatId, BotStatusEnums.ASK_ABOUT_HOUSE.toString());
-            bot.execute(SendMessageConstructor.sendMessage(street, chatId, false, null));
+            sendMessage.setText(street);
             user.setStreet(message);
+            return sendMessage;
         } else if (status.equals(BotStatusEnums.ASK_ABOUT_HOUSE.toString())) {
             botStatusService.updateBotStatus(chatId, BotStatusEnums.ASK_ABOUT_PORCH.toString());
-            bot.execute(SendMessageConstructor.sendMessage(house, chatId, false, null));
+            sendMessage.setText(house);
             user.setHouse(message);
+            return sendMessage;
         } else if (status.equals(BotStatusEnums.ASK_ABOUT_PORCH.toString())) {
             botStatusService.updateBotStatus(chatId, BotStatusEnums.ASK_ABOUT_FLOOR.toString());
-            bot.execute(SendMessageConstructor.sendMessage(porch, chatId, false, null));
+            sendMessage.setText(porch);
             user.setPorchNumber(message);
+            return sendMessage;
         } else if (status.equals(BotStatusEnums.ASK_ABOUT_FLOOR.toString())) {
             botStatusService.updateBotStatus(chatId, BotStatusEnums.ASK_ABOUT_FLAT.toString());
-            bot.execute(SendMessageConstructor.sendMessage(floor, chatId, false, null));
+            sendMessage.setText(floor);
             user.setFloor(message);
+            return sendMessage;
         } else if (status.equals(BotStatusEnums.ASK_ABOUT_FLAT.toString())) {
             botStatusService.updateBotStatus(chatId, BotStatusEnums.ASK_ABOUT_TELEPHONE_NUMBER.toString());
-            bot.execute(SendMessageConstructor.sendMessage(flat, chatId, false, null));
+            sendMessage.setText(flat);
             user.setFlat(message);
+            return sendMessage;
         } else if (status.equals(BotStatusEnums.ASK_ABOUT_TELEPHONE_NUMBER.toString())) {
             botStatusService.updateBotStatus(chatId, BotStatusEnums.ASK_ABOUT_CAR.toString());
-            bot.execute(SendMessageConstructor.sendMessage(telephoneNumber, chatId, false, null));
+            sendMessage.setText(telephoneNumber);
             user.setTelephoneNumber(message);
+            return sendMessage;
         } else if (status.equals(BotStatusEnums.ASK_ABOUT_CAR_NUMBER.toString())) {
             botStatusService.updateBotStatus(chatId, BotStatusEnums.FINISH.toString());
-            bot.execute(SendMessageConstructor.sendMessage(carNumber, chatId, false, null));
+            sendMessage.setText(carNumber);
             user.setCarNumber(message);
+            return sendMessage;
         } else if (status.equals(BotStatusEnums.FINISH.toString())) {
             botStatusService.deleteBotStatusByUsername(chatId);
             userService.saveUser(user);
+            sendMessage.setText(end);
         }
+        return sendMessage;
     }
 }
