@@ -1,9 +1,11 @@
 package by.overone.it.question;
 
 import by.overone.it.bot.SendMessageConstructor;
+import by.overone.it.entity.Market;
 import by.overone.it.entity.User;
 import by.overone.it.enums.BotStatusEnums;
 import by.overone.it.service.BotStatusService;
+import by.overone.it.service.MarketService;
 import by.overone.it.service.UserService;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,8 @@ public class QuestionsUser {
     private BotStatusService botStatusService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private MarketService marketService;
 
     private SendMessage sendMessage;
     private User user;
@@ -68,7 +72,13 @@ public class QuestionsUser {
             sendMessage = SendMessageConstructor.sendMessage(carNumber, chatId, false, null);
             botStatusService.updateBotStatus(chatId, BotStatusEnums.FINISH.toString());
             user.setCarNumber(message);
-        } else if (status.equals(BotStatusEnums.FINISH.toString())) {
+        }else if (status.equals(BotStatusEnums.ASK_ABOUT_MARKET_DESCRIPTION.toString())){
+            Market market = new Market();
+            botStatusService.deleteBotStatusByUsername(username);
+            market.setDescription(message);
+            market.setUsername(username);
+            marketService.saveAd(market);
+        }else if (status.equals(BotStatusEnums.FINISH.toString())) {
             sendMessage = SendMessageConstructor.sendMessage(end, chatId, false, null);
             botStatusService.deleteBotStatusByUsername(chatId);
             userService.saveUser(user);
