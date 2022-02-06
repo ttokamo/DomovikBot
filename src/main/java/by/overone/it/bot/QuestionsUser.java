@@ -35,52 +35,50 @@ public class QuestionsUser {
         String status = botStatusService.getBotStatusByUsername(username);
         if (status.equals(BotStatusEnums.ASK_ABOUT_SECOND_NAME.toString())) {
             user = new User();
-            sendMessage = SendMessageConstructor.sendMessage(message, chatId, false, null);
+            sendMessage = SendMessageConstructor.sendMessage(secondName, chatId, false, null);
             botStatusService.updateBotStatus(chatId, BotStatusEnums.ASK_ABOUT_STREET.toString());
-            sendMessage.setText(secondName);
-//            bot.execute(SendMessageConstructor.sendMessage(secondName, chatId, false, null));
             user.setUsername(username);
             user.setName(message);
             return sendMessage;
         } else if (status.equals(BotStatusEnums.ASK_ABOUT_STREET.toString())) {
+            sendMessage = SendMessageConstructor.sendMessage(street, chatId, false, null);
             botStatusService.updateBotStatus(chatId, BotStatusEnums.ASK_ABOUT_HOUSE.toString());
-            sendMessage.setText(street);
             user.setStreet(message);
             return sendMessage;
         } else if (status.equals(BotStatusEnums.ASK_ABOUT_HOUSE.toString())) {
+            sendMessage = SendMessageConstructor.sendMessage(house, chatId, false, null);
             botStatusService.updateBotStatus(chatId, BotStatusEnums.ASK_ABOUT_PORCH.toString());
-            sendMessage.setText(house);
             user.setHouse(message);
             return sendMessage;
         } else if (status.equals(BotStatusEnums.ASK_ABOUT_PORCH.toString())) {
+            sendMessage = SendMessageConstructor.sendMessage(porch, chatId, false, null);
             botStatusService.updateBotStatus(chatId, BotStatusEnums.ASK_ABOUT_FLOOR.toString());
-            sendMessage.setText(porch);
             user.setPorchNumber(message);
             return sendMessage;
         } else if (status.equals(BotStatusEnums.ASK_ABOUT_FLOOR.toString())) {
+            sendMessage = SendMessageConstructor.sendMessage(floor, chatId, false, null);
             botStatusService.updateBotStatus(chatId, BotStatusEnums.ASK_ABOUT_FLAT.toString());
-            sendMessage.setText(floor);
             user.setFloor(message);
             return sendMessage;
         } else if (status.equals(BotStatusEnums.ASK_ABOUT_FLAT.toString())) {
+            sendMessage = SendMessageConstructor.sendMessage(flat, chatId, false, null);
             botStatusService.updateBotStatus(chatId, BotStatusEnums.ASK_ABOUT_TELEPHONE_NUMBER.toString());
-            sendMessage.setText(flat);
             user.setFlat(message);
             return sendMessage;
         } else if (status.equals(BotStatusEnums.ASK_ABOUT_TELEPHONE_NUMBER.toString())) {
+            sendMessage = SendMessageConstructor.sendMessage(telephoneNumber, chatId, false, null);
             botStatusService.updateBotStatus(chatId, BotStatusEnums.ASK_ABOUT_CAR.toString());
-            sendMessage.setText(telephoneNumber);
             user.setTelephoneNumber(message);
             return sendMessage;
         } else if (status.equals(BotStatusEnums.ASK_ABOUT_CAR_NUMBER.toString())) {
+            sendMessage = SendMessageConstructor.sendMessage(carNumber, chatId, false, null);
             botStatusService.updateBotStatus(chatId, BotStatusEnums.FINISH.toString());
-            sendMessage.setText(carNumber);
             user.setCarNumber(message);
             return sendMessage;
         } else if (status.equals(BotStatusEnums.FINISH.toString())) {
+            sendMessage = SendMessageConstructor.sendMessage(end, chatId, false, null);
             botStatusService.deleteBotStatusByUsername(chatId);
             userService.saveUser(user);
-            sendMessage.setText(end);
         }
         return sendMessage;
     }
