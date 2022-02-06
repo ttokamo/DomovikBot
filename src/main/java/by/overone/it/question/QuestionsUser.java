@@ -36,6 +36,8 @@ public class QuestionsUser {
         final String telephoneNumber = "Ведите номер телефона:";
         final String carNumber = "Ведите регистрационный номер машины:";
         final String end = "Анкета заполнена";
+        final String finishMarket = "Ваше объявление успешно зарегистрировано";
+
 
         String status = botStatusService.getBotStatusByUsername(username);
         if (status.equals(BotStatusEnums.ASK_ABOUT_SECOND_NAME.toString())) {
@@ -77,6 +79,7 @@ public class QuestionsUser {
             botStatusService.deleteBotStatusByUsername(username);
             market.setDescription(message);
             market.setUsername(username);
+            sendMessage = SendMessageConstructor.sendMessage(finishMarket, chatId, false, null);
             marketService.saveAd(market);
         }else if (status.equals(BotStatusEnums.FINISH.toString())) {
             sendMessage = SendMessageConstructor.sendMessage(end, chatId, false, null);
