@@ -15,7 +15,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @Component
 public class Bot extends TelegramLongPollingBot {
     private static final String botUserName = "Sevatest_bot";
-    private static final String token = "5222878356:AAGApIyYkw0gB7L64bUEfoONOLLmolauQ1Q";
+    private static final String token = "5153744354:AAHFFtN-uTwVLZNvM_juacVfxG8Mr4JLn2w";
 
     private BotStatus botStatus;
     @Autowired
@@ -102,7 +102,10 @@ public class Bot extends TelegramLongPollingBot {
                 botStatusService.saveBotStatus(botStatus);
                 execute(SendMessageConstructor.sendMessage("Введите описание вашего объявления: ",
                         chatId, false, null));
-
+            } else if (callback.equals("Yes")) {
+                botStatusService.updateBotStatus(update.getCallbackQuery().getFrom().getUserName(), BotStatusEnums.ASK_ABOUT_CAR_NUMBER.name());
+            } else if (callback.equals("No")) {
+                botStatusService.updateBotStatus(update.getCallbackQuery().getFrom().getUserName(), BotStatusEnums.FINISH.name());
             }
         }
     }
