@@ -35,7 +35,7 @@ public class QuestionsUser {
         String status = botStatusService.getBotStatusByUsername(username);
         if (status.equals(BotStatusEnums.ASK_ABOUT_SECOND_NAME.toString())) {
             user = new User();
-            sendMessage = new SendMessage();
+            sendMessage = SendMessageConstructor.sendMessage(message, chatId, false, null);
             botStatusService.updateBotStatus(chatId, BotStatusEnums.ASK_ABOUT_STREET.toString());
             sendMessage.setText(secondName);
 //            bot.execute(SendMessageConstructor.sendMessage(secondName, chatId, false, null));
