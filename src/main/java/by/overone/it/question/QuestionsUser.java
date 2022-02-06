@@ -1,14 +1,18 @@
 package by.overone.it.question;
 
+import by.overone.it.bot.KeyboardConstructor;
 import by.overone.it.bot.SendMessageConstructor;
+import by.overone.it.entity.Market;
 import by.overone.it.entity.User;
 import by.overone.it.enums.BotStatusEnums;
 import by.overone.it.service.BotStatusService;
+import by.overone.it.service.MarketService;
 import by.overone.it.service.UserService;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 
 @Component
 public class QuestionsUser {
@@ -17,6 +21,8 @@ public class QuestionsUser {
     private BotStatusService botStatusService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private MarketService marketService;
 
     private SendMessage sendMessage;
     private User user;
@@ -32,6 +38,8 @@ public class QuestionsUser {
         final String telephoneNumber = "Ведите номер телефона:";
         final String carNumber = "Ведите регистрационный номер машины:";
         final String end = "Анкета заполнена";
+        final String finishMarket = "Ваше объявление успешно зарегистрировано";
+
 
         String status = botStatusService.getBotStatusByUsername(username);
         if (status.equals(BotStatusEnums.ASK_ABOUT_SECOND_NAME.toString())) {
@@ -68,11 +76,24 @@ public class QuestionsUser {
             sendMessage = SendMessageConstructor.sendMessage(carNumber, chatId, false, null);
             botStatusService.updateBotStatus(username, BotStatusEnums.FINISH.toString());
             user.setCarNumber(message);
-        } else if (status.equals(BotStatusEnums.FINISH.toString())) {
+        }else if (status.equals(BotStatusEnums.ASK_ABOUT_MARKET_DESCRIPTION.toString())){
+            Market market = new Market();
+            botStatusService.deleteBotStatusByUsername(username);
+            market.setDescription(message);
+            market.setUsername(username);
+            sendMessage = SendMessageConstructor.sendMessage(finishMarket, chatId, false, null);
+            marketService.saveAd(market);
+        }else if (status.equals(BotStatusEnums.FINISH.toString())) {
             sendMessage = SendMessageConstructor.sendMessage(end, chatId, false, null);
             botStatusService.deleteBotStatusByUsername(username);
             userService.saveUser(user);
         }
         return sendMessage;
+
+    }
+    private static InlineKeyboardMarkup sendCar() {
+        return KeyboardConstructor.createMarkup(
+                KeyboardConstructor.createRow(KeyboardConstructor.createButton("Да", "Yes"),
+                                              KeyboardConstructor.createButton("Нет", "No")));
     }
 }
