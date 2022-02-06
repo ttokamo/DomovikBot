@@ -2,9 +2,9 @@ package by.overone.it.bot;
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 
-
 public class BotJKHMenu extends KeyboardConstructor {
 
+    // Кнопка ЖКХ
     public static InlineKeyboardMarkup sendJKHMenu() {
 
        return createMarkup(createRow(createButton("ЖКХ твоего города", "In your city"),

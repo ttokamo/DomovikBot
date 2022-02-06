@@ -2,6 +2,7 @@ package by.overone.it.repository;
 
 import by.overone.it.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -20,5 +21,12 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     @Query("select username from User where username =:username")
     String getUsername(@Param("username") String username);
+
+    @Modifying
+    @Query("delete from User where username =:username")
+    void deleteUserByUsername(@Param("username") String username);
+
+    @Query("select name from User where porchNumber =: porchNumber")
+    String getNeighbors(@Param("porchNumber") String porchNumber);
 
 }
