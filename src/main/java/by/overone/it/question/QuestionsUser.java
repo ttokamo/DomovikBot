@@ -1,5 +1,6 @@
-package by.overone.it.bot;
+package by.overone.it.question;
 
+import by.overone.it.bot.SendMessageConstructor;
 import by.overone.it.entity.User;
 import by.overone.it.enums.BotStatusEnums;
 import by.overone.it.service.BotStatusService;
