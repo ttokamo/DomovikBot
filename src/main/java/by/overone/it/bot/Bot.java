@@ -1,6 +1,12 @@
 package by.overone.it.bot;
 
+import by.overone.it.entity.BotStatus;
+import by.overone.it.enums.BotStatusEnums;
+import by.overone.it.service.BotStatusService;
+import by.overone.it.service.UserService;
 import lombok.SneakyThrows;
+import org.checkerframework.checker.units.qual.A;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -14,7 +20,12 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 public class Bot extends TelegramLongPollingBot {
 
     private static final String botUserName = "Sevatest_bot";
-    private static final String token = "5222878356:AAH6WN4X1VlZQeyJZKd8q8QdEOJ0PgykEJ0";
+    private static final String token = "5153744354:AAHFFtN-uTwVLZNvM_juacVfxG8Mr4JLn2w";
+    private BotStatus botStatus;
+    @Autowired
+    private BotStatusService botStatusService;
+    @Autowired
+    private UserService userService;
 
 
     @Override
@@ -42,6 +53,8 @@ public class Bot extends TelegramLongPollingBot {
             } else if (start.startsWith("/stop")) {
                 execute(SendMessageConstructor.sendMessage("До свидания",
                         update.getMessage().getChatId().toString(), false, null));
+            } else if (botStatusService.getBotStatusByUsername(username) != null && update.getMessage().hasText()) {
+
             }
 
         } else if (update.hasCallbackQuery()) {
@@ -52,6 +65,16 @@ public class Bot extends TelegramLongPollingBot {
                         BotSecondMenu.sendSecondMenu()));
 
             } else if (callback.equals("Registration")) {
+                String username = update.getCallbackQuery().getFrom().getUserName();
+                String status = botStatusService.getBotStatusByUsername(username);
+                if (status != null) {
+                    botStatusService.deleteBotStatusByUsername(username);
+                    userService.deleteUserByUsername(username);
+                }
+                botStatus = new BotStatus();
+                botStatus.setStatus(BotStatusEnums.ASK_ABOUT_SECOND_NAME.name());
+                botStatus.setUsername(username);
+                botStatusService.saveBotStatus(botStatus);
                 execute(SendMessageConstructor.sendMessage("Добро пожаловать в регистрацию.Введите ваше имя: ",
                         update.getCallbackQuery().getMessage().getChatId().toString(), false, null));
 
