@@ -4,7 +4,6 @@ import by.overone.it.entity.BotStatus;
 import by.overone.it.enums.BotStatusEnums;
 import by.overone.it.question.QuestionsUser;
 import by.overone.it.service.BotStatusService;
-import by.overone.it.service.MarketService;
 import by.overone.it.service.UserService;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @Component
 public class Bot extends TelegramLongPollingBot {
     private static final String botUserName = "Sevatest_bot";
-    private static final String token = "5222878356:AAGApIyYkw0gB7L64bUEfoONOLLmolauQ1Q";
+    private static final String token = "5153744354:AAHFFtN-uTwVLZNvM_juacVfxG8Mr4JLn2w";
 
     private BotStatus botStatus;
     @Autowired
@@ -24,10 +23,6 @@ public class Bot extends TelegramLongPollingBot {
     private UserService userService;
     @Autowired
     private QuestionsUser questionsUser;
-
-    @Autowired
-    private MarketService marketService;
-
 
     @Override
     public String getBotUsername() {
@@ -102,7 +97,10 @@ public class Bot extends TelegramLongPollingBot {
                 botStatusService.saveBotStatus(botStatus);
                 execute(SendMessageConstructor.sendMessage("Введите описание вашего объявления: ",
                         chatId, false, null));
-
+            } else if (callback.equals("Yes")) {
+                botStatusService.updateBotStatus(update.getCallbackQuery().getFrom().getUserName(), BotStatusEnums.ASK_ABOUT_CAR_NUMBER.name());
+            } else if (callback.equals("No")) {
+                botStatusService.updateBotStatus(update.getCallbackQuery().getFrom().getUserName(), BotStatusEnums.FINISH.name());
             }
         }
     }

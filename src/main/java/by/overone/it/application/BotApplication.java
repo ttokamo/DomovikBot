@@ -19,21 +19,21 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 @ComponentScan("by.overone.it")
 public class BotApplication {
 
-	@SneakyThrows
-	public static void main(String[] args) {
-		SpringApplication.run(BotApplication.class);
-	}
+    @SneakyThrows
+    public static void main(String[] args) {
+        SpringApplication.run(BotApplication.class);
+    }
 
-	@Bean
-	public CommandLineRunner commandLineRunner(@Autowired TelegramBotsApi telegramBotsApi, @Autowired Bot bot) {
-		return args -> {
-			telegramBotsApi.registerBot(bot);
-		};
-	}
+    @Bean
+    public CommandLineRunner commandLineRunner(@Autowired TelegramBotsApi telegramBotsApi, @Autowired Bot bot) {
+        return args -> {
+            telegramBotsApi.registerBot(bot);
+        };
+    }
 
-	@SneakyThrows
-	@Bean
-	public TelegramBotsApi telegramBotsApi(Bot bot) {
-		return new TelegramBotsApi(DefaultBotSession.class);
-	}
+    @SneakyThrows
+    @Bean
+    public TelegramBotsApi telegramBotsApi(Bot bot) {
+        return new TelegramBotsApi(DefaultBotSession.class);
+    }
 }

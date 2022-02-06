@@ -8,8 +8,8 @@ public class BotBaraholkaMenu extends KeyboardConstructor {
     //    Кнопка барахолки
     public static InlineKeyboardMarkup sendBaraholka() {
 
-       return createMarkup(createRow(createButton("Добавить объявление", "add advert"),
-                        createButton("Показать объявления", "show add")));
+        return createMarkup(createRow(createButton("Добавить объявление", "add advert"),
+                createButton("Показать объявления", "show add")));
 
     }
 

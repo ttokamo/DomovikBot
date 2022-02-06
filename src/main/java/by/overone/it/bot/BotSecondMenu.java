@@ -7,7 +7,7 @@ public class BotSecondMenu extends KeyboardConstructor {
     //    Кнопка меню
     public static InlineKeyboardMarkup sendSecondMenu() {
 
-       return createMarkup(createRow(createButton("Мои соседи", "Neighbor"),
+        return createMarkup(createRow(createButton("Мои соседи", "Neighbor"),
                         createButton("Барахолка", "Baraholka")),
                 createRow(createButton("ЖКХ", "JKH"),
                         createButton("Кто подпер?", "Breaker")),
