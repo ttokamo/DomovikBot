@@ -15,13 +15,13 @@ import java.util.List;
  * InlineKeyboardButton firstButton = KeyboardConstructor.createButton("some text", "some callback");
  * InlineKeyboardButton secondButton = KeyboardConstructor.createButton("some text", "some callback");
  * InlineKeyboardButton thirdButton = KeyboardConstructor.createButton("some text", "some callback");
- *
+ * <p>
  * List<InlineKeyboardButton> firstRow = KeyboardConstructor.createRow(firstButton, secondButton);
  * List<InlineKeyboardButton secondRow = KeyboardConstructor.createRow(thirdButton);
- *
+ * <p>
  * InlineKeyboardMarkup markup = KeyboardConstructor.createMarkup(firstRow, secondRow);
  * --------------------------------------------------------------------------------------------------
-*/
+ */
 
 public class KeyboardConstructor {
 
@@ -30,7 +30,7 @@ public class KeyboardConstructor {
      * Принимает на вход параметры String buttonText, String callback.
      * buttonText - текст, который будет отображаться на кнопке.
      * callback - текст, который будет приходить в update после нажатия на кнопку.
-    */
+     */
     public static InlineKeyboardButton createButton(String buttonText, String callback) {
         InlineKeyboardButton button = new InlineKeyboardButton();
         button.setText(buttonText);
@@ -41,9 +41,9 @@ public class KeyboardConstructor {
     /**
      * Статический метод создания одного ряда кнопок.
      * Принимает на вход максимум две кнопки типа InlineKeyboardButton.
-    */
+     */
     @SneakyThrows
-    public static List<InlineKeyboardButton> createRow(InlineKeyboardButton ... values) {
+    public static List<InlineKeyboardButton> createRow(InlineKeyboardButton... values) {
         if (values == null) {
             throw new Exception("Метод getRow не может быть с пустым параметром");
         } else if (values.length > 2) {
@@ -58,9 +58,9 @@ public class KeyboardConstructor {
     /**
      * Статический метод создания клавиатурной разметки.
      * Принимает на вход неограниченное кол-во рядов кнопок типа List<InlineKeyboardButton>.
-    */
+     */
     @SneakyThrows
-    public static InlineKeyboardMarkup createMarkup(List<InlineKeyboardButton> ... values) {
+    public static InlineKeyboardMarkup createMarkup(List<InlineKeyboardButton>... values) {
         if (values == null) {
             throw new Exception("Метод createMarkup не может быть с пустыми параметрами");
         }

@@ -7,9 +7,9 @@ public class BotJKHMenu extends KeyboardConstructor {
     // Кнопка ЖКХ
     public static InlineKeyboardMarkup sendJKHMenu() {
 
-       return createMarkup(createRow(createButton("ЖКХ твоего города", "In your city"),
-                       createButton("Расписание уборок", "Timetable")),
-               createRow(createButton("Рупор ЖКХ", "Mouthpiece")));
+        return createMarkup(createRow(createButton("ЖКХ твоего города", "In your city"),
+                        createButton("Расписание уборок", "Timetable")),
+                createRow(createButton("Рупор ЖКХ", "Mouthpiece")));
     }
 
 }

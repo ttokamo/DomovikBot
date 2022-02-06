@@ -4,7 +4,6 @@ import by.overone.it.entity.BotStatus;
 import by.overone.it.enums.BotStatusEnums;
 import by.overone.it.question.QuestionsUser;
 import by.overone.it.service.BotStatusService;
-import by.overone.it.service.MarketService;
 import by.overone.it.service.UserService;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +23,6 @@ public class Bot extends TelegramLongPollingBot {
     private UserService userService;
     @Autowired
     private QuestionsUser questionsUser;
-
-    @Autowired
-    private MarketService marketService;
-
 
     @Override
     public String getBotUsername() {
