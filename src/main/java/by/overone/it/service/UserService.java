@@ -22,4 +22,9 @@ public class UserService {
     public String getUsername(String username) {
         return userRepository.getUsername(username);
     }
+
+    public String getNeighbors(String porchNumber){
+        return userRepository.getNeighbors(porchNumber);
+    }
+
 }
