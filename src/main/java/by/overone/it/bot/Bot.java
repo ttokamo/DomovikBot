@@ -1,23 +1,17 @@
 package by.overone.it.bot;
 
+import by.overone.it.entity.BotStatus;
+import by.overone.it.enums.BotStatusEnums;
+import by.overone.it.service.BotStatusService;
+import by.overone.it.service.UserService;
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-
-import java.util.ArrayList;
-import java.util.List;
-
-// update.getMessage() - работа сообщениями
-// update.getCallbackQuerry - работа с кнопками
-
 
 @Component
 public class Bot extends TelegramLongPollingBot {
-
     private static final String botUserName = "Sevatest_bot";
     private static final String token = "5153744354:AAHFFtN-uTwVLZNvM_juacVfxG8Mr4JLn2w";
     private BotStatus botStatus;
@@ -40,8 +34,6 @@ public class Bot extends TelegramLongPollingBot {
     @Override
     @SneakyThrows
     public void onUpdateReceived(Update update) {
-//        Вводим переменную против NullPointerException
-//        Главное меню
         if (update.hasMessage()) {
             String username = update.getMessage().getFrom().getFirstName();
             String start = update.getMessage().getText();
@@ -94,9 +86,6 @@ public class Bot extends TelegramLongPollingBot {
                 execute(SendMessageConstructor.sendMessage("Введите описание вашего объявления: ",
                         update.getCallbackQuery().getMessage().getChatId().toString(), false, null));
             }
-
         }
-
     }
-
 }
