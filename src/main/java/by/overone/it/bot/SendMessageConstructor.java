@@ -13,15 +13,13 @@ public class SendMessageConstructor {
      * chatId - id чата, в которое будет отправлено сообщение.
      * needKeyboard - устанавливать значение true, если к сообщению надо привязать кнопки. В случае false -
      * оставить параметр markup = null.
-     *
      */
     @SneakyThrows
     public static SendMessage sendMessage(
             String message,
             String chatId,
             boolean needKeyboard,
-            InlineKeyboardMarkup markup)
-    {
+            InlineKeyboardMarkup markup) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setText(message);
         sendMessage.setChatId(chatId);
@@ -31,7 +29,7 @@ public class SendMessageConstructor {
             } else {
                 throw new Exception(
                         "Нужно указать клавиатуру для метода sendMessage, " +
-                        "иначе установите значение needKeyboard == false в параметрах метода");
+                                "иначе установите значение needKeyboard == false в параметрах метода");
             }
         }
         return sendMessage;

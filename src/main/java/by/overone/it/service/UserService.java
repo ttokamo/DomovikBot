@@ -27,7 +27,7 @@ public class UserService {
         userRepository.deleteUserByUsername(username);
     }
 
-    public String getNeighbors(String porchNumber){
+    public String getNeighbors(String porchNumber) {
         return userRepository.getNeighbors(porchNumber);
     }
 

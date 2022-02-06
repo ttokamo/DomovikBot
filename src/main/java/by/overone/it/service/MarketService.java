@@ -20,4 +20,5 @@ public class MarketService {
     public List<Market> getAllAd() {
         return marketRepository.findAll();
     }
+
 }
