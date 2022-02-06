@@ -15,7 +15,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @Component
 public class Bot extends TelegramLongPollingBot {
     private static final String botUserName = "Sevatest_bot";
-    private static final String token = "5153744354:AAHFFtN-uTwVLZNvM_juacVfxG8Mr4JLn2w";
+    private static final String token = "5222878356:AAGApIyYkw0gB7L64bUEfoONOLLmolauQ1Q";
 
     private BotStatus botStatus;
     @Autowired
