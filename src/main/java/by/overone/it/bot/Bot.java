@@ -1,20 +1,19 @@
 package by.overone.it.bot;
 
-import by.overone.it.entity.BotStatus;
-import by.overone.it.enums.BotStatusEnums;
-import by.overone.it.service.BotStatusService;
-import by.overone.it.service.UserService;
 import lombok.SneakyThrows;
-import org.checkerframework.checker.units.qual.A;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+
+import java.util.ArrayList;
+import java.util.List;
 
 // update.getMessage() - работа сообщениями
 // update.getCallbackQuerry - работа с кнопками
+
 
 @Component
 public class Bot extends TelegramLongPollingBot {
@@ -56,7 +55,6 @@ public class Bot extends TelegramLongPollingBot {
             } else if (botStatusService.getBotStatusByUsername(username) != null && update.getMessage().hasText()) {
 
             }
-
         } else if (update.hasCallbackQuery()) {
             String callback = update.getCallbackQuery().getData();
             if (callback.startsWith("Menu")) {
