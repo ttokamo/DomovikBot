@@ -21,4 +21,7 @@ public interface UserRepository extends JpaRepository<User, String> {
     @Query("select username from User where username =:username")
     String getUsername(@Param("username") String username);
 
+    @Query("select name from User where porchNumber =: porchNumber")
+    String getNeighbors(@Param("porchNumber") String porchNumber);
+
 }
