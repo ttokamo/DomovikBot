@@ -2,6 +2,7 @@ package by.overone.it.bot;
 
 import by.overone.it.entity.BotStatus;
 import by.overone.it.enums.BotStatusEnums;
+import by.overone.it.question.QuestionsUser;
 import by.overone.it.service.BotStatusService;
 import by.overone.it.service.UserService;
 import lombok.SneakyThrows;
@@ -19,6 +20,8 @@ public class Bot extends TelegramLongPollingBot {
     private BotStatusService botStatusService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private QuestionsUser questionsUser;
 
 
     @Override
@@ -37,6 +40,7 @@ public class Bot extends TelegramLongPollingBot {
         if (update.hasMessage()) {
             String username = update.getMessage().getFrom().getFirstName();
             String start = update.getMessage().getText();
+            String chatId = update.getMessage().getChatId().toString();
             if (start.startsWith("/start")) {
                 execute(SendMessageConstructor.sendMessage("Привет в нашем телеграм-боте, " + username,
                         update.getMessage().getChatId().toString(), true,
@@ -45,7 +49,7 @@ public class Bot extends TelegramLongPollingBot {
                 execute(SendMessageConstructor.sendMessage("До свидания",
                         update.getMessage().getChatId().toString(), false, null));
             } else if (botStatusService.getBotStatusByUsername(username) != null && update.getMessage().hasText()) {
-
+                execute(questionsUser.questions(username, chatId, update.getMessage().getText()));
             }
         } else if (update.hasCallbackQuery()) {
             String callback = update.getCallbackQuery().getData();

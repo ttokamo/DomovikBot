@@ -13,7 +13,7 @@ import javax.transaction.Transactional;
 @Transactional
 public interface BotStatusRepository extends JpaRepository<BotStatus, String> {
 
-    @Query("from BotStatus where username =:username")
+    @Query("select status from BotStatus where username =:username")
     String getBotStatusByUsername(@Param("username") String username);
 
     @Modifying
