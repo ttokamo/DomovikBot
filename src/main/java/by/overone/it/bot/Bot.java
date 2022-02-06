@@ -3,6 +3,7 @@ package by.overone.it.bot;
 import by.overone.it.entity.BotStatus;
 import by.overone.it.enums.BotStatusEnums;
 import by.overone.it.service.BotStatusService;
+import by.overone.it.service.MarketService;
 import by.overone.it.service.UserService;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +15,15 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 public class Bot extends TelegramLongPollingBot {
     private static final String botUserName = "Sevatest_bot";
     private static final String token = "5153744354:AAHFFtN-uTwVLZNvM_juacVfxG8Mr4JLn2w";
+
     private BotStatus botStatus;
     @Autowired
     private BotStatusService botStatusService;
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private MarketService marketService;
 
 
     @Override
@@ -34,6 +39,8 @@ public class Bot extends TelegramLongPollingBot {
     @Override
     @SneakyThrows
     public void onUpdateReceived(Update update) {
+//        Вводим переменную против NullPointerException
+//        Главное меню
         if (update.hasMessage()) {
             String username = update.getMessage().getFrom().getFirstName();
             String start = update.getMessage().getText();
@@ -48,10 +55,11 @@ public class Bot extends TelegramLongPollingBot {
 
             }
         } else if (update.hasCallbackQuery()) {
+            String chatId = update.getCallbackQuery().getMessage().getChatId().toString();
             String callback = update.getCallbackQuery().getData();
             if (callback.startsWith("Menu")) {
                 execute(SendMessageConstructor.sendMessage("Вы нажали на меню",
-                        update.getCallbackQuery().getMessage().getChatId().toString(), true,
+                        chatId, true,
                         BotSecondMenu.sendSecondMenu()));
 
             } else if (callback.equals("Registration")) {
@@ -70,21 +78,27 @@ public class Bot extends TelegramLongPollingBot {
 
             } else if (callback.equals("Exit")) {
                 execute(SendMessageConstructor.sendMessage("Если вы уверены что хотите выйти кликните сюда -> /stop",
-                        update.getCallbackQuery().getMessage().getChatId().toString(), false, null));
+                        chatId, false, null));
 
             } else if (callback.equals("Baraholka")) {
                 execute(SendMessageConstructor.sendMessage("Вы нажали на барахолка",
-                        update.getCallbackQuery().getMessage().getChatId().toString(), true,
+                        chatId, true,
                         BotBaraholkaMenu.sendBaraholka()));
 
             } else if (callback.equals("JKH")) {
                 execute(SendMessageConstructor.sendMessage("Вы нажали на ЖКХ",
-                        update.getCallbackQuery().getMessage().getChatId().toString(), true,
+                        chatId, true,
                         BotJKHMenu.sendJKHMenu()));
 
             } else if (callback.equals("add advert")) {
+                String username = update.getCallbackQuery().getFrom().getUserName();
+                botStatus = new BotStatus();
+                botStatus.setStatus(BotStatusEnums.ASK_ABOUT_MARKET_DESCRIPTION.name());
+                botStatus.setUsername(username);
+                botStatusService.saveBotStatus(botStatus);
                 execute(SendMessageConstructor.sendMessage("Введите описание вашего объявления: ",
-                        update.getCallbackQuery().getMessage().getChatId().toString(), false, null));
+                        chatId, false, null));
+
             }
         }
     }
