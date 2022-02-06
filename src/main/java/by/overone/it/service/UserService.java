@@ -26,4 +26,9 @@ public class UserService {
     public void deleteUserByUsername(String username) {
         userRepository.deleteUserByUsername(username);
     }
+
+    public String getNeighbors(String porchNumber){
+        return userRepository.getNeighbors(porchNumber);
+    }
+
 }
